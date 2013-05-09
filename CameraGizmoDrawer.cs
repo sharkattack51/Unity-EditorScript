@@ -1,17 +1,27 @@
 using UnityEngine;
 using System.Collections;
- 
+
 /*
  * 非選択時にもカメラのビュー範囲を表示する
  */ 
- 
+
 [ExecuteInEditMode]
 [RequireComponent(typeof(Camera))]
 public class CameraGizmoDrawer : MonoBehaviour
 {
 	public Color gizmosColor = Color.gray;
-  
+	
 	void OnDrawGizmos()
+	{
+		DrawGizmos(gizmosColor);
+	}
+	
+	void OnDrawGizmosSelected()
+	{
+		DrawGizmos(Color.white);
+	}
+	
+	private void DrawGizmos(Color color)
 	{
 		float fov = this.camera.fov;
 		float size = this.camera.orthographicSize;
@@ -20,7 +30,7 @@ public class CameraGizmoDrawer : MonoBehaviour
 		float aspect = this.camera.aspect;
 		
 		Color tempColor = Gizmos.color;
-		Gizmos.color = gizmosColor;
+		Gizmos.color = color;
 		
 		Matrix4x4 tempMat = Gizmos.matrix;
 		Gizmos.matrix = Matrix4x4.TRS(this.transform.position, this.transform.rotation, new Vector3(aspect, 1.0f, 1.0f));
